@@ -58,6 +58,7 @@ namespace Kbg.NppPluginNET
 
         public static void OnNotification(ScNotification notification)
         {
+            Icon icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
             switch (notification.Header.Code)
             {
                 case (uint)NppMsg.NPPN_FILEOPENED:
@@ -75,7 +76,7 @@ namespace Kbg.NppPluginNET
                             compressionBeforeSave[notification.Header.IdFrom] = compr;
                         else
                             compressionBeforeSave.Add(notification.Header.IdFrom, compr);
-                        
+
                         if (cursorPosition.ContainsKey(notification.Header.IdFrom))
                             cursorPosition[notification.Header.IdFrom] = scintillaGateway.GetCurrentPos();
                         else
@@ -84,15 +85,13 @@ namespace Kbg.NppPluginNET
                         if (compr == null) return;
 
                         scintillaGateway.BeginUndoAction();
-                       
-                        
+
+
                         using var contentStream = NppGZipFileViewerHelper.GetContentStream(notification, path);
                         var fileEncoding = fileTracker.GetEncoding(notification.Header.IdFrom) ?? new UTF8Encoding(false);
                         using var encodedContentStream = NppGZipFileViewerHelper.Encode(contentStream, fileEncoding,compr);
                         NppGZipFileViewerHelper.SetEncodedText(encodedContentStream);
                         var currentNppEncoding = (NppEncoding)nppGateway.GetBufferEncoding(notification.Header.IdFrom);
-                        //if (NppGZipFileViewerHelper.ToNppEncoding(fileEncoding) != currentNppEncoding)
-                        //    nppGateway.SendMenuEncoding(NppGZipFileViewerHelper.ToNppEncoding(fileEncoding));
                         scintillaGateway.EndUndoAction();
                     }
                     catch (Exception ex) { MessageBox.Show(ex.Message, "Error at FileBeforeSave", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -208,7 +207,7 @@ namespace Kbg.NppPluginNET
                 }
 
             // no compression found:
-            if(sourceCompression != null) // could not compress file although it has a specifix suffix -> exclude this file
+            if (sourceCompression != null) // could not compress file although it has a specifix suffix -> exclude this file
                 fileTracker.Exclude(notification.Header.IdFrom, path);
         }
 
@@ -257,7 +256,7 @@ namespace Kbg.NppPluginNET
             // path changed
 
             // compression based on suffix changed: return compression for new path
-            if (Preferences.GetCompressionBySuffix(oldPath)  != Preferences.GetCompressionBySuffix(newPath))
+            if (Preferences.GetCompressionBySuffix(oldPath) != Preferences.GetCompressionBySuffix(newPath))
                 return Preferences.GetCompressionBySuffix(newPath);
 
             // same suffix type:
@@ -275,7 +274,7 @@ namespace Kbg.NppPluginNET
         }
 
         private static Encoding TryDecompress(Stream contentStream, CompressionSettings compression)
-        { 
+        {
             try
             {
                 using var decodedContentStream = NppGZipFileViewerHelper.Decode(contentStream, compression);
@@ -291,7 +290,7 @@ namespace Kbg.NppPluginNET
             catch
             {
                 return null;
-                    
+
             }
         }
         internal static void CommandMenuInit()
@@ -307,14 +306,18 @@ namespace Kbg.NppPluginNET
 
             try
             {
-                Preferences = Preferences.Deserialize(iniFilePath);                
+                Preferences = Preferences.Deserialize(iniFilePath);
+                if (Preferences.ShowDepcrecatedWarning)
+                    _ = MessageBox.Show("This plugin is deprecated, please switch to CompressedFileViewer", "Deprecated");
+
             }
             catch
             {
                 Preferences = Preferences.Default;
-            }           
-            
-            
+                _ = MessageBox.Show("This plugin is deprecated, please switch to CompressedFileViewer", "Deprecated");
+            }
+
+
             PluginBase.SetCommand(0, "Toggle Compression", ToogleCompress, false);
             PluginBase.SetCommand(1, "---", null);
             PluginBase.SetCommand(2, "Compress", Compress, false);
@@ -324,25 +327,27 @@ namespace Kbg.NppPluginNET
             PluginBase.SetCommand(6, "About", OpenAbout);
             PluginBase.SetCommand(7, "Credits", OpenCredits);
             PluginBase.SetCommand(8, "---", null);
-            SetCompressionCommands(9);
+            PluginBase.SetCommand(9, "Deprecated", () => MessageBox.Show("This plugin is deprecated, please switch to CompressedFileViewer", "Deprecated"));
+            PluginBase.SetCommand(10, "---", null);
+            SetCompressionCommands(11);
             SetToolBarIcon();
         }
 
         private static void SetCompressionCommands(int startIndex)
         {
-            foreach(var compr in Preferences.EnumerateCompressions())
+            foreach (var compr in Preferences.EnumerateCompressions())
             {
                 PluginBase.SetCommand(startIndex++, compr.CompressionAlgorithm, () => SetCompression(compr.CompressionAlgorithm));
             }
         }
 
-        
 
-        
+
+
         private static void Decompress()
         {
             DecompressForm decompressForm = new DecompressForm();
-            if(decompressForm.ShowDialog() == DialogResult.OK)
+            if (decompressForm.ShowDialog() == DialogResult.OK)
             {
                 IntPtr bufferId = nppGateway.GetCurrentBufferId();
                 var compr = decompressForm.CompressionSettings;
@@ -351,13 +356,13 @@ namespace Kbg.NppPluginNET
                 var enc = NppGZipFileViewerHelper.SetDecodedText(decodedContentStream);
                 var nppEnc = NppGZipFileViewerHelper.ToNppEncoding(enc);
                 nppGateway.SendMenuEncoding(nppEnc);
-            }         
+            }
         }
 
         private static void Compress()
-        {      
+        {
             CompressForm compressForm = new CompressForm();
-            if(compressForm.ShowDialog() == DialogResult.OK)
+            if (compressForm.ShowDialog() == DialogResult.OK)
             {
                 IntPtr bufferId = nppGateway.GetCurrentBufferId();
                 var compr = compressForm.CompressionSettings;
@@ -367,7 +372,7 @@ namespace Kbg.NppPluginNET
                 NppGZipFileViewerHelper.SetEncodedText(encodedContentStream);
                 nppGateway.SendMenuEncoding(NppEncoding.UTF8); // Set MenuEncoding to match scintillas internal buffer encoding
                 // if it's not UTF-8... who cares
-            }          
+            }
         }
 
         private static void OpenCredits()

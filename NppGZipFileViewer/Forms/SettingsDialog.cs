@@ -70,7 +70,7 @@ namespace NppGZipFileViewer.Forms
             toolTip1.SetToolTip(chkListBoxCompressionAlg, "Changes the order of the compression algorithmns. \n" +
                 "Only effects 'Toogle Compression'. To disable a compression remove the file association, too");
 
-            toolTip1.SetToolTip(chk_DecompressAll, "If set all files will be decompressed regardless of the suffix.");
+            toolTip1.SetToolTip(chk_DecompressAll, "If set, all files will be decompressed regardless of the suffix.");
 
 
         }

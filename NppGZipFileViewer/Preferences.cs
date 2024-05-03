@@ -12,8 +12,8 @@ namespace NppGZipFileViewer
 {
     [Serializable]
     public class Preferences
-    {        
-        public const int VERSION = 4;
+    {
+        public const int VERSION = 5;
         public int Version { get; set; } = VERSION;
 
         public bool DecompressAll { get; set; }
@@ -84,6 +84,10 @@ namespace NppGZipFileViewer
             {
                 pref.ZstdSettings = Preferences.Default.ZstdSettings;
             }
+            if (pref.Version < 5)
+            {
+                pref.ShowDepcrecatedWarning = true;
+            }
             pref.Version = Preferences.VERSION;
             return pref;
         }
@@ -123,10 +127,12 @@ namespace NppGZipFileViewer
             }
         }
 
+        public bool ShowDepcrecatedWarning { get; private set; } = false;
+
         public IEnumerable<CompressionSettings> EnumerateCompressions()
         {
-            return GetType().GetProperties().Where(m => m.PropertyType.IsSubclassOf(typeof(CompressionSettings)))                
-                    .Select(m => (m.GetValue(this) as CompressionSettings));         
+            return GetType().GetProperties().Where(m => m.PropertyType.IsSubclassOf(typeof(CompressionSettings)))
+                    .Select(m => (m.GetValue(this) as CompressionSettings));
 
         }
     }

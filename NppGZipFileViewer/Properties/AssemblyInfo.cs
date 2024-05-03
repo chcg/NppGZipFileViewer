@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("NppGZipFileViewer")]
-[assembly: AssemblyDescription("This is a Notepad++ plugin to open and store files in gzip, bzip2, xz or zstd format.")]
+[assembly: AssemblyDescription("[Deprecated] This is a Notepad++ plugin to open and store files in gzip, bzip2, xz or zstd format.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Pascal Krenckel")]
 [assembly: AssemblyProduct("NppGZipFileViewer")]
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.0.1.*")]
-[assembly: AssemblyFileVersion("3.0.1.0")]
+[assembly: AssemblyVersion("4.0.0.*")]
+[assembly: AssemblyFileVersion("4.0.0.0")]

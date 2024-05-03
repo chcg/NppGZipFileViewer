@@ -1,4 +1,8 @@
 # NppGZipFileViewer
+#### Deprecated
+This plugin is deprecated, please switch to [CompressedFileViewer](https://github.com/Pascal-Krenckel/CompressedFileViewer).
+
+---
 A Notepad++ plugin to open and save files in the gzip or bzip2 format.
 It's written in C# with Visual Studio.
 Don't change the encoding of a zipped file. Change the file to uncompressed, then change the encoding and toggle compression on again.
@@ -17,6 +21,8 @@ It depends on your npp version:
 Copy the dll to "%npp_install_path%\\plugins\\%name%\\%name%.dll"
 
 Make sure the names match, because npp loads the dll based on the directory name.
+
+Also, make sure that .Net Framework 4.8 is installed.
 
 ### Terminus:
 1. tracked file: A tracked file is a file that was decompressed or is selected manually for compression. The Icon and Menu Entry will be checked for this file.
