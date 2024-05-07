@@ -127,7 +127,7 @@ namespace NppGZipFileViewer
             }
         }
 
-        public bool ShowDepcrecatedWarning { get; private set; } = false;
+        public bool ShowDepcrecatedWarning { get; set; } = false;
 
         public IEnumerable<CompressionSettings> EnumerateCompressions()
         {
