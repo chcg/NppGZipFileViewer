@@ -1,20 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace NppGZipFileViewer.Forms;
 public partial class DecompressForm : Form
 {
-    public DecompressForm()
-    {
-        InitializeComponent();
-    }
+    public DecompressForm() => InitializeComponent();
 
     private void CompressForm_Load(object sender, EventArgs e)
     {
@@ -32,6 +23,5 @@ public partial class DecompressForm : Form
 
     }
 
-    public Settings.CompressionSettings CompressionSettings
-    { get => lstCompressors.SelectedItem as Settings.CompressionSettings; }
+    public Settings.CompressionSettings CompressionSettings => lstCompressors.SelectedItem as Settings.CompressionSettings;
 }

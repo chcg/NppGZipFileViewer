@@ -1,12 +1,6 @@
 ﻿using NppGZipFileViewer.Settings;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace NppGZipFileViewer.Forms;
@@ -26,7 +20,7 @@ public partial class XZSettingsDialog : Form
 
     private void btn_Add_Click(object sender, EventArgs e)
     {
-        lst_Suffixes.Items.Add(txt_Suffix.Text);
+        _ = lst_Suffixes.Items.Add(txt_Suffix.Text);
         txt_Suffix.Text = "";
     }
 
@@ -39,17 +33,14 @@ public partial class XZSettingsDialog : Form
 
     public XZSettings XZSettings
     {
-        get
+        get => new()
         {
-            return new XZSettings()
-            {
-                BufferSize = (int)numBufferSize.Value,
-                CompressionLevel = (Joveler.Compression.XZ.LzmaCompLevel)(int)numCompressionLevel.Value,
-                Extensions = lst_Suffixes.Items.Cast<string>().ToList(),
-                Threads = (int)numThreads.Value,
-                MultiThread = chkMultiThreading.Checked,
-            };
-        }
+            BufferSize = (int)numBufferSize.Value,
+            CompressionLevel = (Joveler.Compression.XZ.LzmaCompLevel)(int)numCompressionLevel.Value,
+            Extensions = lst_Suffixes.Items.Cast<string>().ToList(),
+            Threads = (int)numThreads.Value,
+            MultiThread = chkMultiThreading.Checked,
+        };
 
         set
         {
@@ -62,10 +53,7 @@ public partial class XZSettingsDialog : Form
         }
     }
 
-    private void btnDefault_Click(object sender, EventArgs e)
-    {
-        this.XZSettings = Preferences.Default.XZSettings;
-    }
+    private void btnDefault_Click(object sender, EventArgs e) => XZSettings = Preferences.Default.XZSettings;
 
     private void toolTip1_Popup(object sender, PopupEventArgs e)
     {

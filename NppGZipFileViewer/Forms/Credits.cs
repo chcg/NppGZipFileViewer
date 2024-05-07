@@ -1,12 +1,8 @@
 ﻿using System.Windows.Forms;
 
-namespace NppGZipFileViewer.Forms
+namespace NppGZipFileViewer.Forms;
+
+public partial class Credits : Form
 {
-    public partial class Credits : Form
-    {
-        public Credits()
-        {
-            InitializeComponent();
-        }
-    }
+    public Credits() => InitializeComponent();
 }

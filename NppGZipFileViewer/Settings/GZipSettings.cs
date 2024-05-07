@@ -1,10 +1,6 @@
 ﻿using ICSharpCode.SharpZipLib.GZip;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NppGZipFileViewer.Settings;
 
@@ -13,7 +9,7 @@ public class GZipSettings : CompressionSettings
 {
     public GZipSettings()
     {
-        
+
     }
 
     public int CompressionLevel { get; set; } = 6;
@@ -24,8 +20,10 @@ public class GZipSettings : CompressionSettings
 
     public override Stream GetCompressionStream(Stream outStream)
     {
-        GZipOutputStream outputStream = new GZipOutputStream(outStream, BufferSize);
-        outputStream.IsStreamOwner = false;
+        GZipOutputStream outputStream = new(outStream, BufferSize)
+        {
+            IsStreamOwner = false
+        };
         outputStream.SetLevel(CompressionLevel);
         return outputStream;
     }

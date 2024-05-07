@@ -1,21 +1,12 @@
 ﻿using NppGZipFileViewer.Settings;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace NppGZipFileViewer.Forms;
 public partial class GZipSettingsDialog : Form
 {
-    public GZipSettingsDialog()
-    {
-        InitializeComponent();
-    }
+    public GZipSettingsDialog() => InitializeComponent();
 
     private void GZipSettings_Load(object sender, EventArgs e)
     {
@@ -25,7 +16,7 @@ public partial class GZipSettingsDialog : Form
 
     private void btn_Add_Click(object sender, EventArgs e)
     {
-        lst_Suffixes.Items.Add(txt_Suffix.Text);
+        _ = lst_Suffixes.Items.Add(txt_Suffix.Text);
         txt_Suffix.Text = "";
     }
 
@@ -38,15 +29,12 @@ public partial class GZipSettingsDialog : Form
 
     public GZipSettings GZipSettings
     {
-        get
+        get => new()
         {
-            return new GZipSettings()
-            {
-                BufferSize = (int)numBufferSize.Value,
-                CompressionLevel = (int)numCompressionLevel.Value,
-                Extensions = lst_Suffixes.Items.Cast<string>().ToList()
-            };
-        }
+            BufferSize = (int)numBufferSize.Value,
+            CompressionLevel = (int)numCompressionLevel.Value,
+            Extensions = lst_Suffixes.Items.Cast<string>().ToList()
+        };
 
         set
         {
@@ -57,8 +45,5 @@ public partial class GZipSettingsDialog : Form
         }
     }
 
-    private void btnDefault_Click(object sender, EventArgs e)
-    {
-        this.GZipSettings = Preferences.Default.GZipSettings;
-    }
+    private void btnDefault_Click(object sender, EventArgs e) => GZipSettings = Preferences.Default.GZipSettings;
 }

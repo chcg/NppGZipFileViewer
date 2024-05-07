@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NppGZipFileViewer;
+﻿namespace NppGZipFileViewer;
 internal class BOMDetector
 {
     // Source: https://stackoverflow.com/questions/3825390/effective-way-to-find-any-files-encoding
@@ -14,7 +8,7 @@ internal class BOMDetector
     /// <param name="bom">The array to analyze.</param>
     /// <returns>The detected encoding.</returns>
     public static BOM GetEncoding(byte[] bom)
-    {        
+    {
         // Analyze the BOM
         if (bom.Length >= 3 && bom[0] == 0x2b && bom[1] == 0x2f && bom[2] == 0x76) return BOM.UTF7;
         if (bom.Length >= 3 && bom[0] == 0xef && bom[1] == 0xbb && bom[2] == 0xbf) return BOM.UTF8;

@@ -1,21 +1,12 @@
 ﻿using NppGZipFileViewer.Settings;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace NppGZipFileViewer.Forms;
 public partial class ZstdSettingsDialog : Form
 {
-    public ZstdSettingsDialog()
-    {
-        InitializeComponent();
-    }
+    public ZstdSettingsDialog() => InitializeComponent();
 
     private void ZstSettings_Load(object sender, EventArgs e)
     {
@@ -25,7 +16,7 @@ public partial class ZstdSettingsDialog : Form
 
     private void btn_Add_Click(object sender, EventArgs e)
     {
-        lst_Suffixes.Items.Add(txt_Suffix.Text);
+        _ = lst_Suffixes.Items.Add(txt_Suffix.Text);
         txt_Suffix.Text = "";
     }
 
@@ -38,15 +29,12 @@ public partial class ZstdSettingsDialog : Form
 
     public ZstdSettings ZstdSettings
     {
-        get
+        get => new()
         {
-            return new ZstdSettings()
-            {
-                BufferSize = (int)numBufferSize.Value,
-                CompressionLevel = (int)numCompressionLevel.Value,
-                Extensions = lst_Suffixes.Items.Cast<string>().ToList()
-            };
-        }
+            BufferSize = (int)numBufferSize.Value,
+            CompressionLevel = (int)numCompressionLevel.Value,
+            Extensions = lst_Suffixes.Items.Cast<string>().ToList()
+        };
 
         set
         {
@@ -57,8 +45,5 @@ public partial class ZstdSettingsDialog : Form
         }
     }
 
-    private void btnDefault_Click(object sender, EventArgs e)
-    {
-        this.ZstdSettings = Preferences.Default.ZstdSettings;
-    }
+    private void btnDefault_Click(object sender, EventArgs e) => ZstdSettings = Preferences.Default.ZstdSettings;
 }

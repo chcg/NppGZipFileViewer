@@ -1,10 +1,6 @@
 ﻿using ICSharpCode.SharpZipLib.BZip2;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NppGZipFileViewer.Settings;
 
