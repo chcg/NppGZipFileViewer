@@ -1,6 +1,5 @@
 ﻿// NPP plugin platform for .Net v0.94.00 by Kasper B. Graversen etc.
 using Kbg.NppPluginNET.PluginInfrastructure;
-using NppPlugin.DllExport;
 using System;
 using System.Runtime.InteropServices;
 

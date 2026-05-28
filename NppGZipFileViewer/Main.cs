@@ -299,13 +299,13 @@ internal class Main
         {
             Preferences = Preferences.Deserialize(iniFilePath);
             if (Preferences.ShowDepcrecatedWarning)
-                _ = MessageBox.Show("This plugin is deprecated, please switch to CompressedFileViewer", "Deprecated");
+                Preferences.ShowDepcrecatedWarning = DialogResult.Yes == MessageBox.Show("The plugin NppGZipFileViewer is deprecated, please switch to CompressedFileViewer.\nShow this message again next time?", "Deprecated", MessageBoxButtons.YesNo);
 
         }
         catch
         {
             Preferences = Preferences.Default;
-            _ = MessageBox.Show("This plugin is deprecated, please switch to CompressedFileViewer", "Deprecated");
+            Preferences.ShowDepcrecatedWarning = DialogResult.Yes == MessageBox.Show("The plugin NppGZipFileViewer is deprecated, please switch to CompressedFileViewer.\nShow this message again next time?", "Deprecated", MessageBoxButtons.YesNo);
         }
 
 
@@ -318,7 +318,7 @@ internal class Main
         PluginBase.SetCommand(6, "About", OpenAbout);
         PluginBase.SetCommand(7, "Credits", OpenCredits);
         PluginBase.SetCommand(8, "---", null);
-        PluginBase.SetCommand(9, "Deprecated", () => MessageBox.Show("This plugin is deprecated, please switch to CompressedFileViewer", "Deprecated"));
+        PluginBase.SetCommand(9, "Deprecated", () => Preferences.ShowDepcrecatedWarning = DialogResult.Yes == MessageBox.Show("The plugin NppGZipFileViewer is deprecated, please switch to CompressedFileViewer.\nShow this message again next time?", "Deprecated", MessageBoxButtons.YesNo));
         PluginBase.SetCommand(10, "---", null);
         SetCompressionCommands(11);
         SetToolBarIcon();

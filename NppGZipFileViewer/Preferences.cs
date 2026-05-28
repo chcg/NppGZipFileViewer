@@ -111,7 +111,7 @@ public class Preferences
         }
     }
 
-    public bool ShowDepcrecatedWarning { get; set; } = false;
+    public bool ShowDepcrecatedWarning { get; set; } = true;
 
     public IEnumerable<CompressionSettings> EnumerateCompressions() => GetType().GetProperties().Where(m => m.PropertyType.IsSubclassOf(typeof(CompressionSettings)))
                 .Select(m => m.GetValue(this) as CompressionSettings);
